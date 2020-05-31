@@ -146,7 +146,7 @@ def main():
         for group in groups:
             print(group)
 
-        print(sum(map(lambda group: group.members(), groups)))
+        print(sum(map(lambda g: g.members(), groups)))
 
 
 if __name__ == "__main__":
