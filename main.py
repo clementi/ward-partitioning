@@ -134,7 +134,7 @@ def main():
             random.shuffle(households)
 
         groups = SortedSet()
-        current_group = Group(0)
+        current_group = Group(1)
         for household in households:
             if household.members + current_group.members() > limit:
                 groups.add(current_group)
