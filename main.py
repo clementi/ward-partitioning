@@ -114,8 +114,12 @@ def to_household(line):
 
 
 def main():
-    limit = 99 if len(sys.argv) < 2 else int(sys.argv[1])
-    seed = int(time.time() * 1000000) if len(sys.argv) < 3 else int(sys.argv[2])
+    if len(sys.argv) < 2:
+        raise Exception("Data file required.")
+    households_file_path = sys.argv[1]
+
+    limit = 99 if len(sys.argv) < 3 else int(sys.argv[2])
+    seed = int(time.time() * 1000000) if len(sys.argv) < 4 else int(sys.argv[3])
 
     print(f"Using seed {seed}")
 
@@ -123,7 +127,7 @@ def main():
 
     print(f"Using limit {limit}")
 
-    with open("c:/users/jeff/desktop/households.csv", "r") as households_file:
+    with open(households_file_path, "r") as households_file:
         households = list(map(to_household, filter(lambda line: not line.startswith("Name,"), households_file)))
 
         random.shuffle(households)
