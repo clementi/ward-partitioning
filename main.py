@@ -121,16 +121,17 @@ def main():
     limit = 99 if len(sys.argv) < 3 else int(sys.argv[2])
     seed = int(time.time() * 1000000) if len(sys.argv) < 4 else int(sys.argv[3])
 
-    print(f"Using seed {seed}")
-
-    random.seed(seed)
+    if seed != 0:
+        print(f"Using seed {seed}")
+        random.seed(seed)
 
     print(f"Using limit {limit}")
 
     with open(households_file_path, "r") as households_file:
         households = list(map(to_household, filter(lambda line: not line.startswith("Name,"), households_file)))
 
-        random.shuffle(households)
+        if seed != 0:
+            random.shuffle(households)
 
         groups = SortedSet()
         current_group = Group(0)
