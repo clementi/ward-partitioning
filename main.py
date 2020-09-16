@@ -114,39 +114,43 @@ def to_household(line):
 
 
 def main():
-    if len(sys.argv) < 2:
-        raise Exception("Data file required.")
-    households_file_path = sys.argv[1]
+    try:
+        if len(sys.argv) < 2:
+            raise Exception("Data file required.")
+        households_file_path = sys.argv[1]
 
-    limit = 99 if len(sys.argv) < 3 else int(sys.argv[2])
-    seed = int(time.time() * 1000000) if len(sys.argv) < 4 else int(sys.argv[3])
-
-    if seed != 0:
-        print(f"Using seed {seed}")
-        random.seed(seed)
-
-    print(f"Using limit {limit}")
-
-    with open(households_file_path, "r") as households_file:
-        households = list(map(to_household, filter(lambda line: not line.startswith("Name,"), households_file)))
+        limit = 99 if len(sys.argv) < 3 else int(sys.argv[2])
+        seed = int(time.time() * 1000000) if len(sys.argv) < 4 else int(sys.argv[3])
 
         if seed != 0:
-            random.shuffle(households)
+            print(f"Using seed {seed}")
+            random.seed(seed)
 
-        groups = SortedSet()
-        current_group = Group(1)
-        for household in households:
-            if household.members + current_group.members() > limit:
-                groups.add(current_group)
-                current_group = Group(current_group.group_id + 1)
+        print(f"Using limit {limit}")
 
-            current_group.add(household)
-        groups.add(current_group)
+        with open(households_file_path, "r") as households_file:
+            households = list(map(to_household, filter(lambda line: not line.startswith("Name,"), households_file)))
 
-        for group in groups:
-            print(group)
+            if seed != 0:
+                random.shuffle(households)
 
-        print(sum(map(lambda g: g.members(), groups)))
+            groups = SortedSet()
+            current_group = Group(1)
+            for household in households:
+                if household.members + current_group.members() > limit:
+                    groups.add(current_group)
+                    current_group = Group(current_group.group_id + 1)
+
+                current_group.add(household)
+            groups.add(current_group)
+
+            for group in groups:
+                print(group)
+
+            print(sum(map(lambda g: g.members(), groups)))
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
