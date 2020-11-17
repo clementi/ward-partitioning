@@ -1,5 +1,7 @@
 # ward-partitioning
 
+Partition a ward or branch of [The Church of Jesus Christ of Latter-day Saints](http://churchofjesuschrist.org) into groups no larger than a preset limit.
+
 usage: `python main.py HOUSEHOLDS_FILE [LIMIT] [SEED]`, where:
 
 * `HOUSEHOLDS_FILE` is the path to a CSV file of households.
